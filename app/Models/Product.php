@@ -44,4 +44,5 @@ class Product extends Model
         select('products.*','categories.title as category_title')->
         paginate(12);
     }
+
 }

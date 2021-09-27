@@ -19,6 +19,19 @@
  <script src="{{asset('admin/pages/jquery.dashboard.js')}}"></script>
 
 
+ <!-- Modal-Effect -->
+ <script src="{{asset('admin/plugins/custombox/dist/custombox.min.js')}}"></script>
+ <script src="{{asset('admin/plugins/custombox/dist/legacy.min.js')}}"></script>
+
+ <!-- file uploads js -->
+ <script src="{{asset('admin/plugins/fileuploads/js/dropify.min.js')}}"></script>
+
+  <!-- Sweet Alert Js  -->
+  <script src="{{asset('admin/plugins/sweet-alert/sweetalert2.min.js')}}"></script>
+  <script src="{{asset('admin/pages/jquery.sweet-alert.init.js')}}"></script>
+
+  
+
  <!-- App js -->
  <script src="{{asset('admin/js/jquery.core.js')}}"></script>
  <script src="{{asset('admin/js/jquery.app.js')}}"></script>
@@ -36,14 +49,3 @@
         }
     });
 </script>
-
- <!-- Modal-Effect -->
- <script src="{{asset('admin/plugins/custombox/dist/custombox.min.js')}}"></script>
- <script src="{{asset('admin/plugins/custombox/dist/legacy.min.js')}}"></script>
-
- <!-- file uploads js -->
- <script src="{{asset('admin/plugins/fileuploads/js/dropify.min.js')}}"></script>
-
-  <!-- Sweet Alert Js  -->
-  <script src="{{asset('admin/plugins/sweet-alert/sweetalert2.min.js')}}"></script>
-  <script src="{{asset('admin/pages/jquery.sweet-alert.init.js')}}"></script>

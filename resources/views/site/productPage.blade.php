@@ -118,16 +118,13 @@
                             </div>
                         </div>
                         <div class="perched-info">
-                            <div class="cart-plus-minus">
-                                <form action="#" class="num-block">
-                                    <input type="text" class="in-num" value="1" readonly="">
-                                    <div class="qtybutton-box">
-                                        <span class="plus"><img src="{{asset('site/img/icon/plus.png')}}" alt=""></span>
-                                        <span class="minus dis"><img src="{{asset('site/img/icon/minus.png')}}" alt=""></span>
-                                    </div>
-                                </form>
-                            </div>
-                            <a href="#" class="btn">add to cart</a>
+                            
+                            <form action="{{ route('site.addToCart', $product->id) }}" class="num-block" method="GET">
+                                <div class="cart-plus-minus">
+                                        <input type="number" min="1" value="1" name="quantity" required>
+                                </div>
+                                <button type="submit" class="btn" style="background-color: black; color:white;">add to cart</button>
+                            </form>
                             <div class="wishlist-compare">
                                 <ul>
                                     <li><a href="#"><i class="far fa-heart"></i> Add to Wishlist</a></li>

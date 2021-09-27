@@ -69,47 +69,61 @@
                         <div class="header-action d-none d-md-block">
                             <ul>
                                 <li class="header-search"><a href="#" data-toggle="modal" data-target="#search-modal"><i class="flaticon-search"></i></a></li>
-                                <li class="header-shop-cart"><a href="#"><i class="flaticon-shopping-bag"></i><span>0</span></a>
+                                <li class="header-shop-cart"><a href="{{route('site.cart')}}"><i class="flaticon-shopping-bag"></i><span>0</span></a>
                                     <ul class="minicart">
-                                        <li class="d-flex align-items-start">
-                                            <div class="cart-img">
-                                                <a href="#"><img src="{{asset('site/img/product/cart_p01.jpg')}}" alt=""></a>
-                                            </div>
-                                            <div class="cart-content">
-                                                <h4><a href="#">Exclusive Winter Jackets</a></h4>
-                                                <div class="cart-price">
-                                                    <span class="new">$229.9</span>
-                                                    <span><del>$229.9</del></span>
+                                        @if(session('cart'))
+                                            @php
+                                                $totalPrice = 0
+                                            @endphp
+                                            @foreach(session('cart') as $id => $details)
+                                                <li class="d-flex align-items-start">
+                                                    <div class="cart-img">
+                                                        <a href="#"><img src="{{Storage::url($details['image'])}}" alt=""></a>
+                                                    </div>
+                                                    <div class="cart-content">
+                                                        <h4><a href="#">{{$details['title']}}</a></h4>
+                                                        <p style="margin-bottom: 5px;">Qty: {{$details['quantity']}}</p>
+                                                        @if (isset($details['discount']))
+                                                            <p style="color: red; margin-bottom: 5px;">-{{$details['discount']}}%</p>
+                                                        @endif
+                                                        <div class="cart-price">
+                                                            @php
+                                                                $multiPrice = $details['price'] * $details['quantity']
+                                                            @endphp
+                                                            @if (isset($details['discount']))
+                                                                @php
+                                                                    $discountPrice = round($multiPrice - ($multiPrice * $details['discount']/100),2)
+                                                                @endphp
+                                                                <span class="new">Cost: ${{$discountPrice}}</span>
+                                                                <span><del>${{$multiPrice}}</del></span> 
+                                                                @php
+                                                                    $totalPrice += $discountPrice
+                                                                @endphp
+                                                            @else
+                                                                <span class="new">Cost: ${{$multiPrice}}</span>
+                                                                @php
+                                                                    $totalPrice += $multiPrice
+                                                                @endphp
+                                                            @endif
+                                                        </div>
+                                                    </div>
+                                                    <div class="del-icon">
+                                                        <a href="{{route('site.addOneToCart',$id)}}"><i class="far fa-plus-square"></i></a>
+                                                        <a href="{{route('site.subtractOneFromCart',$id)}}"><i class="far fa-minus-square"></i></a>
+                                                        <a href="{{route('site.removeFromCart',$id)}}"><i class="far fa-trash-alt"></i></a>
+                                                    </div>
+                                                </li>
+                                            @endforeach
+                                            <li>
+                                                <div class="total-price">
+                                                    <span class="f-left">Total:</span>
+                                                    <span class="f-right">${{$totalPrice}}</span>
                                                 </div>
-                                            </div>
-                                            <div class="del-icon">
-                                                <a href="#"><i class="far fa-trash-alt"></i></a>
-                                            </div>
-                                        </li>
-                                        <li class="d-flex align-items-start">
-                                            <div class="cart-img">
-                                                <a href="#"><img src="{{asset('site/img/product/cart_p02.jpg')}}" alt=""></a>
-                                            </div>
-                                            <div class="cart-content">
-                                                <h4><a href="#">Winter Jackets For Women</a></h4>
-                                                <div class="cart-price">
-                                                    <span class="new">$229.9</span>
-                                                    <span><del>$229.9</del></span>
-                                                </div>
-                                            </div>
-                                            <div class="del-icon">
-                                                <a href="#"><i class="far fa-trash-alt"></i></a>
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <div class="total-price">
-                                                <span class="f-left">Total:</span>
-                                                <span class="f-right">$239.9</span>
-                                            </div>
-                                        </li>
+                                            </li>
+                                        @endif
                                         <li>
                                             <div class="checkout-link">
-                                                <a href="#">Shopping Cart</a>
+                                                <a href="{{route('site.cart')}}">Shopping Cart</a>
                                                 <a class="black-color" href="#">Checkout</a>
                                             </div>
                                         </li>

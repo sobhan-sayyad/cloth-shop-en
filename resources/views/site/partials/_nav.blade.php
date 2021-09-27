@@ -53,12 +53,13 @@
                                             href="{{ route('site.index') }}">Home</a>
                                         <div class="dropdown-btn"><span class="fas fa-angle-down"></span></div>
                                     </li>
-                                    <li class="active has--mega--menu"><a href="{{route('site.shop')}}">Shop</a>
+                                    <li class="active has--mega--menu"><a href="{{ route('site.shop') }}">Shop</a>
                                         <ul class="mega-menu">
                                             <li class="mega-menu-wrap">
                                                 <ul class="mega-menu-col">
                                                     <li class="mega-title"><a href="shop.html">SHOP PAGES</a></li>
-                                                    <li class="active"><a href="shop-sidebar.html">Right Sidebar</a>
+                                                    <li class="active"><a href="shop-sidebar.html">Right
+                                                            Sidebar</a>
                                                     </li>
                                                     <li><a href="shop-sidebar.html">Left Sidebar</a></li>
                                                     <li><a href="shop.html">Hidden sidebar</a></li>
@@ -113,61 +114,83 @@
                                 <ul>
                                     <li class="header-search"><a href="#" data-toggle="modal"
                                             data-target="#search-modal"><i class="flaticon-search"></i></a></li>
-                                            @if (isset($logedUser->id))
-                                    @if ($logedUser->type == 'user')
-                                        <li class="header-profile"><a href="{{ route('site.userProfile',$logedUser) }}"><i class="flaticon-user"></i></a></li>
+                                    @if (isset($logedUser->id))
+                                        @if ($logedUser->type == 'user')
+                                            <li class="header-profile"><a
+                                                    href="{{ route('site.userProfile', $logedUser) }}"><i
+                                                        class="flaticon-user"></i></a></li>
+                                        @endif
+                                        @if ($logedUser->type == 'admin')
+                                            <li class="header-profile"><a href="{{ route('admin.dashboard') }}"><i
+                                                        class="flaticon-user"></i></a></li>
+                                        @endif
+                                    @else
+                                        <li class="header-profile"><a href="{{ route('admin.signup') }}"><i
+                                                    class="flaticon-user"></i></a></li>
                                     @endif
-                                    @if ($logedUser->type == 'admin')
-                                        <li class="header-profile"><a href="{{ route('admin.dashboard') }}"><i class="flaticon-user"></i></a></li>
-                                    @endif
-                                @else
-                                    <li class="header-profile"><a href="{{ route('admin.signup') }}"><i class="flaticon-user"></i></a></li>
-                                @endif
-                                    <li class="header-wishlist"><a href="#"><i class="flaticon-heart-shape-outline"></i></a></li>
-                                    <li class="header-shop-cart"><a href="#"><i
+                                    <li class="header-wishlist"><a href="#"><i
+                                                class="flaticon-heart-shape-outline"></i></a></li>
+                                    <li class="header-shop-cart"><a href="{{ route('site.cart') }}"><i
                                                 class="flaticon-shopping-bag"></i><span>0</span></a>
                                         <ul class="minicart">
-                                            <li class="d-flex align-items-start">
-                                                <div class="cart-img">
-                                                    <a href="#"><img src="{{ asset('site/img/product/cart_p01.jpg') }}"
-                                                            alt=""></a>
-                                                </div>
-                                                <div class="cart-content">
-                                                    <h4><a href="#">Exclusive Winter Jackets</a></h4>
-                                                    <div class="cart-price">
-                                                        <span class="new">$229.9</span>
-                                                        <span><del>$229.9</del></span>
+                                            @if (session('cart'))
+                                                @php
+                                                    $totalPrice = 0;
+                                                @endphp
+                                                @foreach (session('cart') as $id => $details)
+                                                    <li class="d-flex align-items-start">
+                                                        <div class="cart-img">
+                                                            <a href="#"><img src="{{ Storage::url($details['image']) }}"
+                                                                    alt=""></a>
+                                                        </div>
+                                                        <div class="cart-content">
+                                                            <h4><a href="#">{{ $details['title'] }}</a></h4>
+                                                            <p style="margin-bottom: 5px;">Qty:
+                                                                {{ $details['quantity'] }}</p>
+                                                            @if (isset($details['discount']))
+                                                                <p style="color: red; margin-bottom: 5px;">
+                                                                    -{{ $details['discount'] }}%</p>
+                                                            @endif
+                                                            <div class="cart-price">
+                                                                @php
+                                                                    $multiPrice = $details['price'] * $details['quantity'];
+                                                                @endphp
+                                                                @if (isset($details['discount']))
+                                                                    @php
+                                                                        $discountPrice = round($multiPrice - ($multiPrice * $details['discount']) / 100, 2);
+                                                                    @endphp
+                                                                    <span class="new">Cost:
+                                                                        ${{ $discountPrice }}</span>
+                                                                    <span><del>${{ $multiPrice }}</del></span>
+                                                                    @php
+                                                                        $totalPrice += $discountPrice;
+                                                                    @endphp
+                                                                @else
+                                                                    <span class="new">Cost:
+                                                                        ${{ $multiPrice }}</span>
+                                                                    @php
+                                                                        $totalPrice += $multiPrice;
+                                                                    @endphp
+                                                                @endif
+                                                            </div>
+                                                        </div>
+                                                        <div class="del-icon">
+                                                            <a href="{{route('site.addOneToCart',$id)}}"><i class="far fa-plus-square"></i></a>
+                                                            <a href="{{route('site.subtractOneFromCart',$id)}}"><i class="far fa-minus-square"></i></a>
+                                                            <a href="{{route('site.removeFromCart',$id)}}"><i class="far fa-trash-alt"></i></a>
+                                                        </div>
+                                                    </li>
+                                                @endforeach
+                                                <li>
+                                                    <div class="total-price">
+                                                        <span class="f-left">Total:</span>
+                                                        <span class="f-right">${{ $totalPrice }}</span>
                                                     </div>
-                                                </div>
-                                                <div class="del-icon">
-                                                    <a href="#"><i class="far fa-trash-alt"></i></a>
-                                                </div>
-                                            </li>
-                                            <li class="d-flex align-items-start">
-                                                <div class="cart-img">
-                                                    <a href="#"><img src="{{ asset('site/img/product/cart_p02.jpg') }}"
-                                                            alt=""></a>
-                                                </div>
-                                                <div class="cart-content">
-                                                    <h4><a href="#">Winter Jackets For Women</a></h4>
-                                                    <div class="cart-price">
-                                                        <span class="new">$229.9</span>
-                                                        <span><del>$229.9</del></span>
-                                                    </div>
-                                                </div>
-                                                <div class="del-icon">
-                                                    <a href="#"><i class="far fa-trash-alt"></i></a>
-                                                </div>
-                                            </li>
-                                            <li>
-                                                <div class="total-price">
-                                                    <span class="f-left">Total:</span>
-                                                    <span class="f-right">$239.9</span>
-                                                </div>
-                                            </li>
+                                                </li>
+                                            @endif
                                             <li>
                                                 <div class="checkout-link">
-                                                    <a href="#">Shopping Cart</a>
+                                                    <a href="{{ route('site.cart') }}">Shopping Cart</a>
                                                     <a class="black-color" href="#">Checkout</a>
                                                 </div>
                                             </li>
@@ -183,8 +206,8 @@
                     <div class="mobile-menu">
                         <div class="close-btn"><i class="flaticon-targeting-cross"></i></div>
                         <nav class="menu-box">
-                            <div class="nav-logo"><a href="index.html"><img src="{{ asset('site/img/logo/logo.png') }}"
-                                        alt="" title=""></a>
+                            <div class="nav-logo"><a href="index.html"><img
+                                        src="{{ asset('site/img/logo/logo.png') }}" alt="" title=""></a>
                             </div>
                             <div class="menu-outer">
                                 <ul class="navigation">
@@ -233,7 +256,7 @@
     <div class="modal fade" id="search-modal" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
-                <form action="{{route('site.search')}}" method="GET">
+                <form action="{{ route('site.search') }}" method="GET">
                     <input type="text" placeholder="Search here..." name="subject" required>
                     <button type="submit"><i class="flaticon-search"></i></button>
                 </form>

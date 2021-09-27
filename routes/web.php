@@ -17,6 +17,11 @@ Route::get('/',[SitePagesController::class,'index'])->name('site.index');
 Route::get('/shop',[SitePagesController::class,'shop'])->name('site.shop');
 Route::get('/product/{id}',[SitePagesController::class,'productPage'])->name('site.productPage');
 Route::get('/search',[SitePagesController::class,'search'])->name('site.search');
+Route::get('/cart',[SitePagesController::class,'cart'])->name('site.cart');
+Route::get('/addToCart/{id}',[SitePagesController::class,'addToCart'])->name('site.addToCart');
+Route::get('/removeFromCart/{id}',[SitePagesController::class,'removeFromCart'])->name('site.removeFromCart');
+Route::get('/addOneToCart/{id}',[SitePagesController::class,'addOneToCart'])->name('site.addOneToCart');
+Route::get('/subtractOneFromCart/{id}',[SitePagesController::class,'subtractOneFromCart'])->name('site.subtractOneFromCart');
 
 Route::group(['prefix' => '', 'middleware'=> 'user'], function()
     {    

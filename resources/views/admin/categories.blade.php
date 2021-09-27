@@ -85,27 +85,18 @@
                                     <div class="row">
                                         <div class="col-sm-12">
                                             <div class="card-box">
-
                                                 <h4 class="header-title m-t-0 m-b-30">Image</h4>
-
                                                 <div class="dropify-wrapper" style="height: 314px;">
-                                                    <div class="dropify-message"><span class="file-icon"></span>
-                                                        <p>Drag and drop a file here or click</p>
-                                                        <p class="dropify-error">Ooops, something wrong appended.</p>
-                                                    </div>
-                                                    <div class="dropify-loader"></div>
-                                                    <div class="dropify-errors-container">
-                                                        <ul></ul>
-                                                    </div><input type="file" class="dropify" data-height="300" name="image"
-                                                        required><button type="button" class="dropify-clear">Remove</button>
-                                                    <div class="dropify-preview"><span class="dropify-render"></span>
+                                                    <input type="file" class="dropify" data-height="300" name="image" required>
+                                                    <button type="button" class="dropify-clear">Remove</button>
+                                                    <div class="dropify-preview">
+                                                        <span class="dropify-render"></span>
                                                         <div class="dropify-infos">
                                                             <div class="dropify-infos-inner">
-                                                                <p class="dropify-filename"><span class="file-icon"></span>
-                                                                    <span class="dropify-filename-inner"></span>
+                                                                <p class="dropify-filename">
+                                                                    <span class="file-icon"></span> <span class="dropify-filename-inner"></span>
                                                                 </p>
-                                                                <p class="dropify-infos-message">Drag and drop or click to
-                                                                    replace</p>
+                                                                <p class="dropify-infos-message">Drag and drop or click to replace</p>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -152,27 +143,24 @@
                                         <div class="row">
                                             <div class="col-sm-12">
                                                 <div class="card-box">
-    
                                                     <h4 class="header-title m-t-0 m-b-30">Image</h4>
-    
-                                                    <div class="dropify-wrapper" style="height: 314px;">
+                                                    <div class="dropify-wrapper has-preview">
                                                         <div class="dropify-message"><span class="file-icon"></span>
                                                             <p>Drag and drop a file here or click</p>
                                                             <p class="dropify-error">Ooops, something wrong appended.</p>
                                                         </div>
-                                                        <div class="dropify-loader"></div>
+                                                        <div class="dropify-loader" style="display: none;"></div>
                                                         <div class="dropify-errors-container">
                                                             <ul></ul>
-                                                        </div><input type="file" class="dropify" data-height="300" name="image"
-                                                        data-default-file="{{Storage::url($category->image)}}"><button type="button" class="dropify-clear">Remove</button>
-                                                        <div class="dropify-preview"><span class="dropify-render"></span>
+                                                        </div><input type="file" class="dropify" name="image" data-default-file="{{Storage::url($category->image)}}"><button type="button"
+                                                            class="dropify-clear">Remove</button>
+                                                        <div class="dropify-preview" style="display: block;"><span class="dropify-render"><img
+                                                                    src="{{Storage::url($category->image)}}"></span>
                                                             <div class="dropify-infos">
                                                                 <div class="dropify-infos-inner">
-                                                                    <p class="dropify-filename"><span class="file-icon"></span>
-                                                                        <span class="dropify-filename-inner"></span>
-                                                                    </p>
-                                                                    <p class="dropify-infos-message">Drag and drop or click to
-                                                                        replace</p>
+                                                                    <p class="dropify-filename"><span class="file-icon"></span> <span
+                                                                            class="dropify-filename-inner">1.jpg</span></p>
+                                                                    <p class="dropify-infos-message">Drag and drop or click to replace</p>
                                                                 </div>
                                                             </div>
                                                         </div>

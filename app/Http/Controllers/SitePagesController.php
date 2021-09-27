@@ -49,4 +49,95 @@ class SitePagesController extends Controller
         $categories = Category::all();
         return view('site.shop', compact('products','categories'));
     }
+
+    public function cart(){
+        return view('site.cart');
+    }
+
+    public function addToCart(Request $request, $id){
+        $ruls=[
+            'quantity'=>'required'
+        ];
+        $customMessages=[
+            'required'=>'Quantity can not be empty'
+        ];
+        $this->validate($request, $ruls, $customMessages);
+        $data = $request->all();
+        $product = Product::find($id);
+        if(!$product){
+            abort(404);
+        }
+        $cart = session()->get('cart');
+        if(!$cart){
+            $cart = [
+                $id =>[
+                    "title"=>$product->title,
+                    "quantity"=>$data['quantity'],
+                    "price"=>$product->price,
+                    "discount"=>$product->discount,
+                    "image"=>$product->image
+                ]
+            ];
+            session()->put('cart', $cart);
+            return redirect()->back()->with('success','Product added to cart successfully!');
+        }
+
+        if(isset($cart[$id])) {
+            $cart[$id]['quantity']+=$data['quantity'];
+            session()->put('cart', $cart);
+            return redirect()->back()->with('success', 'Product added to cart successfully!');
+        }
+
+        $cart[$id] = [
+            "title"=>$product->title,
+            "quantity"=>$data['quantity'],
+            "price"=>$product->price,
+            "discount"=>$product->discount,
+            "image"=>$product->image
+        ];
+        session()->put('cart', $cart);
+        return redirect()->back()->with('success', 'Product added to cart successfully!');
+    }
+
+    public function removeFromCart($id){
+        
+            $cart = session()->get('cart');
+            if(isset($cart[$id])) {
+                unset($cart[$id]);
+                session()->put('cart', $cart);
+                session()->flash('success', 'Product removed frome cart');
+                return redirect()->back();
+            }
+            abort(404);
+    }
+
+    public function addOneToCart($id){
+        
+        $cart = session()->get('cart');
+        if(isset($cart[$id])) {
+            $cart[$id]['quantity']++;
+            session()->put('cart', $cart);
+            session()->flash('success', 'Added one');
+            return redirect()->back();
+        }
+        abort(404);
+    }
+
+    public function subtractOneFromCart($id){
+        
+        $cart = session()->get('cart');
+        if(isset($cart[$id])) {
+            if($cart[$id]['quantity'] == 1){
+                unset($cart[$id]);
+                session()->put('cart', $cart);
+                session()->flash('success', 'Product removed frome cart');
+                return redirect()->back();
+            }
+            $cart[$id]['quantity']--;
+            session()->put('cart', $cart);
+            session()->flash('success', 'Subtracted one');
+            return redirect()->back();
+        }
+        abort(404);
+    }
 }
